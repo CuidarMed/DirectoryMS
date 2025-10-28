@@ -694,3 +694,4 @@ C:\Users\Noxie\Desktop\CuidarMed+\CuidarMed\ProfilesMS\CuidarMed+\obj\Debug\net9
 C:\Users\Noxie\Desktop\CuidarMed+\CuidarMed\ProfilesMS\CuidarMed+\obj\Debug\net9.0\CuidarMed+.csproj.Up2Date
 C:\Users\Noxie\Desktop\CuidarMed+\CuidarMed\ProfilesMS\CuidarMed+\obj\Debug\net9.0\CuidarMed+.genruntimeconfig.cache
 C:\Users\Noxie\Desktop\CuidarMed+\CuidarMed\ProfilesMS\CuidarMed+\obj\Debug\net9.0\ref\CuidarMed+.dll
+C:\Users\Noxie\Desktop\CuidarMed+\CuidarMed\CuidarMed+\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

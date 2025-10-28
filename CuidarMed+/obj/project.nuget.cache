@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9auZuqlbM1M=",
+  "dgSpecHash": "3+Go7ofMMvs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\CuidarMed+\\CuidarMed+.csproj",
+  "projectFilePath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\CuidarMed+\\CuidarMed+.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Noxie\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Noxie\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

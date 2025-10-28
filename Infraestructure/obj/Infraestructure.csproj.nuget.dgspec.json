@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Infraestructure\\Infraestructure.csproj": {}
+    "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Infraestructure\\Infraestructure.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Application\\Application.csproj": {
+    "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Application\\Application.csproj",
+        "projectUniqueName": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Application\\Application.csproj",
+        "projectPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\Noxie\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Application\\obj\\",
+        "outputPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Domain\\Domain.csproj"
+              "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Domain\\Domain.csproj"
               }
             }
           }
@@ -73,14 +73,14 @@
         }
       }
     },
-    "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Domain\\Domain.csproj": {
+    "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Domain\\Domain.csproj",
+        "projectPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\Noxie\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -138,14 +138,14 @@
         }
       }
     },
-    "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Infraestructure\\Infraestructure.csproj": {
+    "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Infraestructure\\Infraestructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Infraestructure\\Infraestructure.csproj",
+        "projectUniqueName": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Infraestructure\\Infraestructure.csproj",
         "projectName": "Infraestructure",
-        "projectPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Infraestructure\\Infraestructure.csproj",
+        "projectPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Infraestructure\\Infraestructure.csproj",
         "packagesPath": "C:\\Users\\Noxie\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Infraestructure\\obj\\",
+        "outputPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Infraestructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -166,8 +166,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Application\\Application.csproj": {
-                "projectPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\ProfilesMS\\Application\\Application.csproj"
+              "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Application\\Application.csproj": {
+                "projectPath": "C:\\Users\\Noxie\\Desktop\\CuidarMed+\\CuidarMed\\Application\\Application.csproj"
               }
             }
           }
