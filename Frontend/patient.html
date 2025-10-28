@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CuidarMed+ - Panel Paciente</title>
+    <link rel="stylesheet" href="css/patient.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Vista del Paciente -->
+    <div class="dashboard">
+        <div class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heart"></i>
+                    <span>CuidarMed+</span>
+                </div>
+                <p class="panel-title">Panel Paciente</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="inicio">
+                    <i class="fas fa-home"></i>
+                    Inicio
+                </a>
+                <a href="#" class="nav-item" data-section="turnos">
+                    <i class="fas fa-calendar"></i>
+                    Mis Turnos
+                </a>
+                <a href="#" class="nav-item" data-section="historial">
+                    <i class="fas fa-file-medical"></i>
+                    Historial Médico
+                </a>
+                <a href="#" class="nav-item" data-section="pagos">
+                    <i class="fas fa-credit-card"></i>
+                    Pagos
+                </a>
+                <a href="#" class="nav-item" data-section="perfil">
+                    <i class="fas fa-user"></i>
+                    Perfil
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="index.html" class="logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
+                </a>
+            </div>
+        </div>
+        
+        <div class="dashboard-content">
+            <h1 class="dashboard-title">Vista del Paciente</h1>
+            
+            <div class="welcome-section">
+                <h2>Bienvenido, Juan</h2>
+                <p>Aquí está el resumen de tu atención médica</p>
+            </div>
+            
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-number" id="confirmed-appointments">2</span>
+                        <span class="card-label">Turnos confirmados</span>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-number" id="consultations-year">12</span>
+                        <span class="card-label">Este año</span>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-number" id="active-prescriptions">3</span>
+                        <span class="card-label">Disponibles</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h3>Próximos Turnos</h3>
+                    <p>Tus consultas programadas</p>
+                    <button class="btn btn-primary" id="schedule-appointment-btn">
+                        <i class="fas fa-calendar-plus"></i>
+                        Agendar Turno
+                    </button>
+                </div>
+                
+                <div class="appointments-list" id="appointments-list">
+                    <div class="appointment-card">
+                        <div class="appointment-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <div class="appointment-info">
+                            <h4>Dr. María González</h4>
+                            <p>Cardiología</p>
+                            <span>2025-10-15 - 10:00</span>
+                        </div>
+                        <div class="appointment-actions">
+                            <span class="status confirmed">Confirmado</span>
+                            <button class="btn btn-secondary video-call-btn" data-doctor="Dr. María González">
+                                <i class="fas fa-video"></i>
+                                Videollamada
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="appointment-card">
+                        <div class="appointment-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <div class="appointment-info">
+                            <h4>Dr. Carlos Rodríguez</h4>
+                            <p>Traumatología</p>
+                            <span>2025-10-18 - 15:30</span>
+                        </div>
+                        <div class="appointment-actions">
+                            <span class="status pending">Pendiente</span>
+                            <button class="btn btn-secondary video-call-btn" data-doctor="Dr. Carlos Rodríguez">
+                                <i class="fas fa-video"></i>
+                                Videollamada
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h3>Historial Médico Reciente</h3>
+                    <p>Últimas consultas realizadas</p>
+                </div>
+                
+                <div class="history-list" id="history-list">
+                    <div class="history-item">
+                        <div class="history-info">
+                            <h4>2025-09-20 Dr. Ana Martinez</h4>
+                            <p>Control rutinario</p>
+                        </div>
+                        <button class="btn btn-secondary view-prescription-btn" data-consultation="2025-09-20">
+                            <i class="fas fa-file-medical"></i>
+                            Ver Receta
+                        </button>
+                    </div>
+                    
+                    <div class="history-item">
+                        <div class="history-info">
+                            <h4>2025-08-15 Dr. Juan López</h4>
+                            <p>Consulta dermatológica</p>
+                        </div>
+                        <button class="btn btn-secondary view-prescription-btn" data-consultation="2025-08-15">
+                            <i class="fas fa-file-medical"></i>
+                            Ver Receta
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agendar turno -->
+    <div id="appointment-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agendar Nuevo Turno</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="appointment-form">
+                    <div class="form-group">
+                        <label for="specialty">Especialidad:</label>
+                        <select id="specialty" name="specialty" required>
+                            <option value="">Seleccionar especialidad</option>
+                            <option value="cardiologia">Cardiología</option>
+                            <option value="dermatologia">Dermatología</option>
+                            <option value="traumatologia">Traumatología</option>
+                            <option value="pediatria">Pediatría</option>
+                            <option value="ginecologia">Ginecología</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor">Médico:</label>
+                        <select id="doctor" name="doctor" required>
+                            <option value="">Seleccionar médico</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Fecha:</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Hora:</label>
+                        <select id="time" name="time" required>
+                            <option value="">Seleccionar hora</option>
+                            <option value="09:00">09:00</option>
+                            <option value="10:00">10:00</option>
+                            <option value="11:00">11:00</option>
+                            <option value="14:00">14:00</option>
+                            <option value="15:00">15:00</option>
+                            <option value="16:00">16:00</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reason">Motivo de consulta:</label>
+                        <textarea id="reason" name="reason" rows="3" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-appointment">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Agendar Turno</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para ver receta -->
+    <div id="prescription-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Receta Médica</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="prescription-content">
+                    <!-- Contenido de la receta se cargará aquí -->
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary" id="download-prescription">
+                        <i class="fas fa-download"></i>
+                        Descargar PDF
+                    </button>
+                    <button class="btn btn-secondary" id="close-prescription">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation buttons for demo -->
+    <div class="demo-nav">
+        <a href="index.html" class="demo-btn">Landing Page</a>
+        <a href="patient.html" class="demo-btn active">Vista Paciente</a>
+        <a href="doctor.html" class="demo-btn">Vista Médico</a>
+    </div>
+
+    <script src="js/patient.js"></script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CuidarMed+ - Panel Médico</title>
+    <link rel="stylesheet" href="css/doctor.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Vista del Médico -->
+    <div class="dashboard">
+        <div class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heart"></i>
+                    <span>CuidarMed+</span>
+                </div>
+                <p class="panel-title">Panel Médico</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="agenda">
+                    <i class="fas fa-calendar"></i>
+                    Agenda
+                </a>
+                <a href="#" class="nav-item" data-section="consultas">
+                    <i class="fas fa-list"></i>
+                    Consultas de hoy
+                </a>
+                <a href="#" class="nav-item" data-section="historia">
+                    <i class="fas fa-chart-line"></i>
+                    Historia Clínica
+                </a>
+                <a href="#" class="nav-item" data-section="recetas">
+                    <i class="fas fa-file-medical"></i>
+                    Recetas
+                </a>
+                <a href="#" class="nav-item" data-section="configuracion">
+                    <i class="fas fa-cog"></i>
+                    Configuración
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="index.html" class="logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
+                </a>
+            </div>
+        </div>
+        
+        <div class="dashboard-content">
+            <h1 class="dashboard-title">Vista del Médico</h1>
+            
+            <div class="welcome-section">
+                <h2>Bienvenida, Dra. Ana Martínez</h2>
+                <p>Panel de gestión médica</p>
+            </div>
+            
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-number" id="patients-today">4</span>
+                        <span class="card-label">Consultas programadas</span>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-number" id="weekly-appointments">35</span>
+                        <span class="card-label">Turnos asignados</span>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-number" id="active-consultation">1</span>
+                        <span class="card-label">Consulta activa</span>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-number" id="prescriptions-today">8</span>
+                        <span class="card-label">Emitidas hoy</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h3>Consultas de Hoy</h3>
+                        <p>Agenda del día</p>
+                    </div>
+                    
+                    <div class="consultations-list" id="consultations-list">
+                        <div class="consultation-item">
+                            <div class="consultation-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="consultation-info">
+                                <h4>Juan Pérez</h4>
+                                <p>Primera consulta</p>
+                                <span>09:00</span>
+                            </div>
+                            <div class="consultation-actions">
+                                <span class="status waiting">En espera</span>
+                                <button class="btn btn-primary attend-btn" data-patient="Juan Pérez">
+                                    <i class="fas fa-play"></i>
+                                    Atender
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="consultation-item">
+                            <div class="consultation-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="consultation-info">
+                                <h4>María González</h4>
+                                <p>Control</p>
+                                <span>10:00</span>
+                            </div>
+                            <div class="consultation-actions">
+                                <span class="status in-progress">En curso</span>
+                                <button class="btn btn-primary attend-btn" data-patient="María González">
+                                    <i class="fas fa-play"></i>
+                                    Atender
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="consultation-item">
+                            <div class="consultation-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="consultation-info">
+                                <h4>Carlos López</h4>
+                                <p>Seguimiento</p>
+                                <span>11:00</span>
+                            </div>
+                            <div class="consultation-actions">
+                                <span class="status pending">Pendiente</span>
+                                <button class="btn btn-primary attend-btn" data-patient="Carlos López">
+                                    <i class="fas fa-play"></i>
+                                    Atender
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="consultation-item">
+                            <div class="consultation-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="consultation-info">
+                                <h4>Ana Martínez</h4>
+                                <p>Control</p>
+                                <span>14:00</span>
+                            </div>
+                            <div class="consultation-actions">
+                                <span class="status pending">Pendiente</span>
+                                <button class="btn btn-primary attend-btn" data-patient="Ana Martínez">
+                                    <i class="fas fa-play"></i>
+                                    Atender
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-section">
+                    <div class="section-header">
+                        <h3>Agenda Semanal</h3>
+                        <p>Vista general de la semana</p>
+                    </div>
+                    
+                    <div class="weekly-schedule" id="weekly-schedule">
+                        <div class="schedule-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Lun 11</span>
+                            <span>8 consultas</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="schedule-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Mar 12</span>
+                            <span>6 consultas</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="schedule-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Mié 13</span>
+                            <span>7 consultas</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="schedule-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Jue 14</span>
+                            <span>9 consultas</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="schedule-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Vie 15</span>
+                            <span>5 consultas</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quick-actions">
+                <h3>Acciones Rápidas</h3>
+                <div class="actions-grid">
+                    <button class="action-btn" id="issue-prescription-btn">
+                        <i class="fas fa-file-medical"></i>
+                        <span>Emitir Receta</span>
+                    </button>
+                    <button class="action-btn" id="view-patients-btn">
+                        <i class="fas fa-users"></i>
+                        <span>Ver Pacientes</span>
+                    </button>
+                    <button class="action-btn" id="manage-schedule-btn">
+                        <i class="fas fa-calendar"></i>
+                        <span>Gestionar Agenda</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para emitir receta -->
+    <div id="prescription-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Emitir Receta Médica</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="prescription-form">
+                    <div class="form-group">
+                        <label for="patient-name">Paciente:</label>
+                        <input type="text" id="patient-name" name="patient-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="medication">Medicamento:</label>
+                        <input type="text" id="medication" name="medication" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dosage">Dosis:</label>
+                        <input type="text" id="dosage" name="dosage" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="instructions">Instrucciones:</label>
+                        <textarea id="instructions" name="instructions" rows="4" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-prescription">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Emitir Receta</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation buttons for demo -->
+    <div class="demo-nav">
+        <a href="index.html" class="demo-btn">Landing Page</a>
+        <a href="patient.html" class="demo-btn">Vista Paciente</a>
+        <a href="doctor.html" class="demo-btn active">Vista Médico</a>
+    </div>
+
+    <script src="js/doctor.js"></script>
+</body>
+</html>
