@@ -3,6 +3,8 @@ using Application.Services;
 using Infraestructure.Command;
 using Infraestructure.Persistence;
 using Infraestructure.Queries;
+using Infrastructure.Command;
+using Infrastructure.Queries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,14 +32,21 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // ========== QUERIES (lectura) - Infrastructure ==========
 builder.Services.AddScoped<IDoctorQuery, DoctorQuery>();
+builder.Services.AddScoped<IPatientQuery, PatientQuery>();
 
 // ========== COMMANDS (escritura) - Infrastructure ==========
 builder.Services.AddScoped<IDoctorCommand, DoctorCommand>();
+builder.Services.AddScoped<IPatientCommand, PatientCommand>();
 
 // ========== SERVICES - Doctors ==========
 builder.Services.AddScoped<ICreateDoctorService, CreateDoctorService>();
 builder.Services.AddScoped<ISearchDoctorService, SearchDoctorService>();
 builder.Services.AddScoped<IUpdateDoctorService, UpdateDoctorService>();
+
+// ========== SERVICES - Patients ==========
+builder.Services.AddScoped<ICreatePatientService, CreatePatientService>();
+builder.Services.AddScoped<ISearchPatientService, SearchPatientService>();
+builder.Services.AddScoped<IUpdatePatientService, UpdatePatientService>();
 
 var app = builder.Build();
 
