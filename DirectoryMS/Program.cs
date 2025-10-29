@@ -7,6 +7,9 @@ using Infrastructure.Command;
 using Infrastructure.Queries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,7 +51,43 @@ builder.Services.AddScoped<ICreatePatientService, CreatePatientService>();
 builder.Services.AddScoped<ISearchPatientService, SearchPatientService>();
 builder.Services.AddScoped<IUpdatePatientService, UpdatePatientService>();
 
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture("es-US");
+    options.SupportedCultures = new[] { new CultureInfo("es-US") };
+    options.SupportedUICultures = new[] { new CultureInfo("es-US") };
+});
+
+
 var app = builder.Build();
+app.UseRequestLocalization();
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+    const int maxRetries = 10;
+    for(var attempt = 1; attempt <= maxRetries; attempt++)
+    {
+        try
+        {
+            logger.LogInformation("Applying migrations... Attempt {Attempt} of {MaxRetries}", attempt, maxRetries);
+            dbContext.Database.Migrate();
+            logger.LogInformation("Migrations applied successfully.");
+            break;
+        }
+        catch(Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while applying migrations on attempt {Attempt} of {MaxRetries}", attempt, maxRetries);
+            if(attempt == maxRetries)
+            {
+                logger.LogCritical("Max migration attempts reached. Exiting application.");
+                throw;
+            }
+            await Task.Delay(TimeSpan.FromSeconds(3)); // Wait before retrying
+        }
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
