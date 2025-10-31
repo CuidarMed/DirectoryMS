@@ -24,11 +24,11 @@ namespace Application.Services
 
         public async Task<PatientResponse> createaPatient(CreatePatientRequest p)
         {
-            var user = await _query.getPatientById(p.UserId);
+            var existingPatient = await _query.getPatientByUserId(p.UserId);
 
-            if(user == null)
+            if(existingPatient != null)
             {
-                throw new NotFoundException("Usuario no encontrado");
+                throw new ConflictException("Ya existe un paciente asociado a este usuario.");
             }
 
             var newPatient = new Patient

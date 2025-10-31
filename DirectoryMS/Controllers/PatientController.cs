@@ -33,6 +33,13 @@ namespace DirectoryMS.Controllers
             return new JsonResult(result);
         }
 
+        [HttpGet("User/{userId}")]
+        public async Task<IActionResult> getPatientByUserId(long userId)
+        {
+            var result = await _searchPatientService.getPatientByUserId(userId);
+            return new JsonResult(result);
+        }
+
         [HttpPatch("{id}")]
         public async Task<IActionResult> updatePatient(long id, [FromBody] UpdatePatientRequest request)
         {
