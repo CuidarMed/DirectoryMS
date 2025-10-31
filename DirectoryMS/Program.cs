@@ -21,16 +21,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Obtenego la cadena de conexión
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+// Obtenego la cadena de conexiï¿½n
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 if (string.IsNullOrEmpty(connectionString))
 {
     // Si esta parte falla, es la causa del error.
-    throw new InvalidOperationException("La cadena de conexión 'DefaultConnection' no fue encontrada en appsettings.json.");
+    throw new InvalidOperationException("La cadena de conexiï¿½n 'DefaultConnection' no fue encontrada en appsettings.json.");
 }
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString) // Pasa la cadena LEÍDA aquí
+    options.UseSqlServer(connectionString) // Pasa la cadena LEï¿½DA aquï¿½
 );
 
 // ========== QUERIES (lectura) - Infrastructure ==========
@@ -97,6 +107,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
