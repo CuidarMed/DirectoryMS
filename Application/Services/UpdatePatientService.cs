@@ -29,6 +29,9 @@ namespace Application.Services
                 throw new BadRequestException("Paciente no encontrado");
             }
 
+            Console.WriteLine($"[UpdatePatientService] Actualizando paciente ID {id}");
+            Console.WriteLine($"[UpdatePatientService] Request recibido: Name={request.Name}, LastName={request.LastName}, DateOfBirth={request.DateOfBirth}, Adress={request.Adress}, HealthPlan={request.HealthPlan}, MembershipNumber={request.MembershipNumber}");
+
             if (!string.IsNullOrEmpty(request.Name))
                 patient.Name = request.Name;
 
@@ -38,8 +41,21 @@ namespace Application.Services
             if(!string.IsNullOrEmpty(request.Adress))
                 patient.Adress = request.Adress;
 
+            if (request.DateOfBirth.HasValue)
+            {
+                Console.WriteLine($"[UpdatePatientService] Actualizando DateOfBirth de {patient.DateOfBirth} a {request.DateOfBirth.Value}");
+                patient.DateOfBirth = request.DateOfBirth.Value;
+            }
+            else
+            {
+                Console.WriteLine($"[UpdatePatientService] DateOfBirth no proporcionado en el request (HasValue={request.DateOfBirth.HasValue})");
+            }
+
             if (!string.IsNullOrEmpty(request.HealthPlan))
                 patient.HealthPlan = request.HealthPlan;
+
+            if (!string.IsNullOrEmpty(request.MembershipNumber))
+                patient.MembershipNumber = request.MembershipNumber;
 
             var updatePatient = await _command.updatePatient(patient);
 
