@@ -43,6 +43,22 @@ namespace Application.Services
 
         private static PatientResponse MapPatient(Domain.Entities.Patient patient)
         {
+            // Asegurar que HealthPlan y MembershipNumber no sean null
+            var healthPlan = patient.HealthPlan;
+            var membershipNumber = patient.MembershipNumber;
+            
+            // Si están vacíos o null, asignar null explícitamente (no string.Empty)
+            // El JSON serializer convertirá null a null en JSON, que el frontend puede manejar mejor
+            if (string.IsNullOrWhiteSpace(healthPlan))
+            {
+                healthPlan = null;
+            }
+            
+            if (string.IsNullOrWhiteSpace(membershipNumber))
+            {
+                membershipNumber = null;
+            }
+            
             return new PatientResponse
             {
                 PatientId = patient.PatientId,
@@ -51,8 +67,8 @@ namespace Application.Services
                 Dni = patient.Dni,
                 Adress = patient.Adress,
                 DateOfBirth = patient.DateOfBirth,
-                HealthPlan = patient.HealthPlan,
-                MembershipNumber = patient.MembershipNumber,
+                HealthPlan = healthPlan,
+                MembershipNumber = membershipNumber,
                 UserId = patient.UserId,
             };
         }

@@ -31,5 +31,12 @@ namespace Infraestructure.Queries
             return await _context.Doctors
                 .ToListAsync();
         }
+
+        public async Task<Doctor?> GetByUserIdAsync(long userId)
+        {
+            return await _context.Doctors
+                .AsNoTracking()
+                .FirstOrDefaultAsync(d => d.UserId == userId);
+        }
     }
 }

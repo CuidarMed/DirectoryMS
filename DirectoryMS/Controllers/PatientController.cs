@@ -22,8 +22,24 @@ namespace DirectoryMS.Controllers
         [HttpPost]
         public async Task<IActionResult> createPatient([FromBody] CreatePatientRequest patient)
         {
-            var result = await _createPatientService.createaPatient(patient);
-            return new JsonResult(result);
+            try
+            {
+                if (patient == null)
+                {
+                    return BadRequest(new { message = "El paciente no puede ser nulo." });
+                }
+
+                var result = await _createPatientService.createaPatient(patient);
+                return Ok(result);
+            }
+            catch (Application.Exceptions.ConflictException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Error al crear el paciente: {ex.Message}", details = ex.ToString() });
+            }
         }
 
         [HttpGet("{id}")]

@@ -26,6 +26,7 @@ namespace Application.Services
                 LastName = request.LastName,
                 LicenseNumber = request.LicenseNumber,
                 Biography = request.Biography,
+                Specialty = request.Specialty, // especialidad
                 UserId = (int)request.UserId
             };
 
@@ -39,6 +40,8 @@ namespace Application.Services
                 FirstName = doctor.FirstName,
                 LastName = doctor.LastName,
                 LicenseNumber = doctor.LicenseNumber,
+                Biography = doctor.Biography,
+                Specialty = doctor.Specialty, // especialidad
                 UserId = doctor.UserId
             };
         }

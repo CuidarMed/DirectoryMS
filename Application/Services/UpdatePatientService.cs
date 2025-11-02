@@ -52,10 +52,24 @@ namespace Application.Services
             }
 
             if (!string.IsNullOrEmpty(request.HealthPlan))
+            {
+                Console.WriteLine($"[UpdatePatientService] Actualizando HealthPlan de '{patient.HealthPlan}' a '{request.HealthPlan}'");
                 patient.HealthPlan = request.HealthPlan;
+            }
+            else
+            {
+                Console.WriteLine($"[UpdatePatientService] HealthPlan no proporcionado o vacío en el request");
+            }
 
             if (!string.IsNullOrEmpty(request.MembershipNumber))
+            {
+                Console.WriteLine($"[UpdatePatientService] Actualizando MembershipNumber de '{patient.MembershipNumber}' a '{request.MembershipNumber}'");
                 patient.MembershipNumber = request.MembershipNumber;
+            }
+            else
+            {
+                Console.WriteLine($"[UpdatePatientService] MembershipNumber no proporcionado o vacío en el request. Valor actual: '{patient.MembershipNumber}'");
+            }
 
             var updatePatient = await _command.updatePatient(patient);
 

@@ -78,6 +78,27 @@ namespace DirectoryMS.Controllers
         }
 
         /// <summary>
+        /// Obtiene un doctor por UserId
+        /// </summary>
+        [HttpGet("User/{userId}")]
+        public async Task<ActionResult<DoctorResponse>> GetDoctorByUserId(long userId)
+        {
+            try
+            {
+                var result = await _searchDoctorService.GetByUserIdAsync(userId);
+
+                if (result == null)
+                    return NotFound(new { message = "Doctor no encontrado para el usuario especificado" });
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        /// <summary>
         /// Actualiza un doctor existente (actualización parcial)
         /// </summary>
         [HttpPatch("{id}")]

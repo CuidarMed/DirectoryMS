@@ -58,44 +58,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("DoctorId");
 
                     b.ToTable("Doctor", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            DoctorId = 1L,
-                            Biography = "Especialista en medicina general con 10 años de experiencia.",
-                            FirstName = "Juan",
-                            LastName = "Pérez",
-                            LicenseNumber = "ABC123",
-                            UserId = 2L
-                        },
-                        new
-                        {
-                            DoctorId = 2L,
-                            Biography = "Cardióloga dedicada a la salud del corazón.",
-                            FirstName = "María",
-                            LastName = "Gómez",
-                            LicenseNumber = "DEF456",
-                            UserId = 3L
-                        },
-                        new
-                        {
-                            DoctorId = 3L,
-                            Biography = "Pediatra apasionado por el cuidado infantil.",
-                            FirstName = "Carlos",
-                            LastName = "López",
-                            LicenseNumber = "GHI789",
-                            UserId = 4L
-                        },
-                        new
-                        {
-                            DoctorId = 4L,
-                            Biography = "Dermatóloga especializada en tratamientos de la piel.",
-                            FirstName = "Ana",
-                            LastName = "Martínez",
-                            LicenseNumber = "JKL012",
-                            UserId = 5L
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Patient", b =>
@@ -141,56 +103,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("PatientId");
 
                     b.ToTable("Patient", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            PatientId = 1L,
-                            Adress = "Calle Falsa 123",
-                            DateOfBirth = new DateOnly(1985, 5, 20),
-                            Dni = 12345678,
-                            HealthPlan = "Plan A",
-                            LastName = "Fernandez",
-                            MembershipNumber = "PA123456",
-                            Name = "Luis",
-                            UserId = 6L
-                        },
-                        new
-                        {
-                            PatientId = 2L,
-                            Adress = "Avenida Siempre Viva 742",
-                            DateOfBirth = new DateOnly(1990, 8, 15),
-                            Dni = 87654321,
-                            HealthPlan = "Plan B",
-                            LastName = "Ramirez",
-                            MembershipNumber = "PB654321",
-                            Name = "Sofia",
-                            UserId = 7L
-                        },
-                        new
-                        {
-                            PatientId = 3L,
-                            Adress = "Boulevard Central 456",
-                            DateOfBirth = new DateOnly(1978, 12, 5),
-                            Dni = 11223344,
-                            HealthPlan = "Plan C",
-                            LastName = "Gonzalez",
-                            MembershipNumber = "PC112233",
-                            Name = "Mateo",
-                            UserId = 8L
-                        },
-                        new
-                        {
-                            PatientId = 4L,
-                            Adress = "Calle del Sol 789",
-                            DateOfBirth = new DateOnly(2000, 3, 30),
-                            Dni = 44332211,
-                            HealthPlan = "Plan A",
-                            LastName = "Vega",
-                            MembershipNumber = "PA445566",
-                            Name = "Isabella",
-                            UserId = 9L
-                        });
                 });
 #pragma warning restore 612, 618
         }
