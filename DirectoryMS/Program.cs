@@ -63,12 +63,6 @@ builder.Services.AddCors(options =>
 
 // Obtenego la cadena de conexi�n
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-if (string.IsNullOrEmpty(connectionString))
-{
-    // Si esta parte falla, es la causa del error.
-    throw new InvalidOperationException("La cadena de conexi�n 'DefaultConnection' no fue encontrada en appsettings.json.");
-}
-
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString, sqlServerOptions =>
     {
