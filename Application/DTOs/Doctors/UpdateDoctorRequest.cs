@@ -12,6 +12,6 @@ namespace Application.DTOs.Doctors
         public string? LastName { get; set; }
         public string? LicenseNumber { get; set; } // matrícula
         public string? Biography { get; set; }
-        public string? Specialty { get; set; } // especialidad
+        public string? Specialty { get; set; } // especialidad (opcional en update, pero si se proporciona debe ser válida)
     }
 }

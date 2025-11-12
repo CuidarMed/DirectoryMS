@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using DirectoryMS.Converters;
 using Microsoft.AspNetCore.Http.Features;
+using FluentValidation;
+using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,8 +31,9 @@ builder.Services.AddControllers()
     })
     .ConfigureApiBehaviorOptions(options =>
     {
-        // Aumentar el tamaño máximo del request body para permitir imágenes base64 grandes
-        options.SuppressModelStateInvalidFilter = false;
+        // Devolver ProblemDetails estándar en validaciones
+        options.InvalidModelStateResponseFactory = context =>
+            new Microsoft.AspNetCore.Mvc.BadRequestObjectResult(new Microsoft.AspNetCore.Mvc.ValidationProblemDetails(context.ModelState));
     });
 
 // Aumentar el límite de tamaño del request body
@@ -90,6 +93,9 @@ builder.Services.AddScoped<IUpdateDoctorService, UpdateDoctorService>();
 builder.Services.AddScoped<ICreatePatientService, CreatePatientService>();
 builder.Services.AddScoped<ISearchPatientService, SearchPatientService>();
 builder.Services.AddScoped<IUpdatePatientService, UpdatePatientService>();
+
+// ========== FluentValidation ==========
+builder.Services.AddValidatorsFromAssembly(Assembly.Load("Application"));
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
