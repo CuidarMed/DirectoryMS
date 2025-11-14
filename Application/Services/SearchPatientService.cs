@@ -66,6 +66,7 @@ namespace Application.Services
                 LastName = patient.LastName,
                 Dni = patient.Dni,
                 Adress = patient.Adress,
+                Phone = patient.Phone,
                 DateOfBirth = patient.DateOfBirth,
                 HealthPlan = healthPlan,
                 MembershipNumber = membershipNumber,
