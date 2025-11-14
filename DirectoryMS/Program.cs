@@ -7,6 +7,7 @@ using Infrastructure.Command;
 using Infrastructure.Queries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using DirectoryMS.Converters;
@@ -74,6 +75,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
             maxRetryDelay: TimeSpan.FromSeconds(30),
             errorNumbersToAdd: null);
     })
+    .ConfigureWarnings(warnings => 
+        warnings.Ignore(RelationalEventId.PendingModelChangesWarning))
 );
 
 // ========== QUERIES (lectura) - Infrastructure ==========

@@ -40,6 +40,7 @@ namespace Application.Services
                 LicenseNumber = request.LicenseNumber,
                 Biography = request.Biography,
                 Specialty = request.Specialty, // especialidad (obligatoria)
+                Phone = request.Phone,
                 UserId = (int)request.UserId
             };
 
@@ -55,6 +56,7 @@ namespace Application.Services
                 LicenseNumber = doctor.LicenseNumber,
                 Biography = doctor.Biography,
                 Specialty = doctor.Specialty, // especialidad
+                Phone = doctor.Phone, // teléfono
                 UserId = doctor.UserId
             };
         }

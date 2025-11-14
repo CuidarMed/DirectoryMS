@@ -36,6 +36,9 @@ namespace Application.Services
             if (request.Biography != null)
                 doctor.Biography = string.IsNullOrWhiteSpace(request.Biography) ? null : request.Biography.Trim();
 
+            if (request.Phone != null)
+                doctor.Phone = string.IsNullOrWhiteSpace(request.Phone) ? null : request.Phone.Trim();
+
             // Actualizar Specialty si se proporciona (puede ser null explícitamente)
             Console.WriteLine($"[UpdateDoctorService] Request recibido - Specialty: '{request.Specialty}'");
             Console.WriteLine($"[UpdateDoctorService] Specialty != null: {request.Specialty != null}");
@@ -69,6 +72,7 @@ namespace Application.Services
                 LicenseNumber = updatedDoctor.LicenseNumber,
                 Biography = updatedDoctor.Biography,
                 Specialty = updatedDoctor.Specialty,
+                Phone = updatedDoctor.Phone,
                 UserId = updatedDoctor.UserId
             };
         }

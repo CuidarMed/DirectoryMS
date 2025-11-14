@@ -13,6 +13,7 @@ namespace Application.DTOs.Doctors
         public string? LicenseNumber { get; set; } // matrícula
         public string? Biography { get; set; }
         public string Specialty { get; set; } = string.Empty; // especialidad (obligatoria)
+        public string? Phone { get; set; } // teléfono
         public long UserId { get; set; }
     }
 }

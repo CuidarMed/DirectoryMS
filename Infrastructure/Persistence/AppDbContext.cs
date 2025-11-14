@@ -40,14 +40,15 @@ namespace Infraestructure.Persistence
                 d.Property(d => d.LastName).HasMaxLength(50).IsRequired();
                 d.Property(d => d.LicenseNumber).HasMaxLength(50).IsRequired();
                 d.Property(d => d.Biography).HasMaxLength(500);
+                d.Property(d => d.Phone).HasMaxLength(20); // teléfono
                 d.Property(d => d.Specialty).HasMaxLength(100); // especialidad
             });
-            base.OnModelCreating(modelBuilder);
-            base.OnModelCreating(modelBuilder);
 
             // Aplicar configuraciones de entidades
             modelBuilder.ApplyConfiguration(new DoctorConfig());
             modelBuilder.ApplyConfiguration(new PatientConfig());
+            
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
