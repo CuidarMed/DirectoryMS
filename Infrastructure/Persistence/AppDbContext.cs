@@ -18,10 +18,12 @@ namespace Infraestructure.Persistence
             {
                 p.ToTable("Patient");
                 p.HasKey(p => p.PatientId);
+                p.Property(p => p.PatientId).ValueGeneratedOnAdd();
                 p.Property(p => p.Name).HasMaxLength(100).IsRequired();
                 p.Property(p => p.LastName).HasMaxLength(100).IsRequired();
                 p.Property(p => p.Dni).IsRequired();
                 p.Property(p => p.Adress).HasMaxLength(200);
+                p.Property(p => p.Phone).HasMaxLength(20);
                 p.Property(p => p.DateOfBirth).IsRequired();
                 p.Property(p => p.HealthPlan).HasMaxLength(100).IsRequired();
                 p.Property(p => p.MembershipNumber).IsRequired();
@@ -33,6 +35,7 @@ namespace Infraestructure.Persistence
             {
                 d.ToTable("Doctor");
                 d.HasKey(d => d.DoctorId);
+                d.Property(d => d.DoctorId).ValueGeneratedOnAdd();
                 d.Property(d => d.FirstName).HasMaxLength(50).IsRequired();
                 d.Property(d => d.LastName).HasMaxLength(50).IsRequired();
                 d.Property(d => d.LicenseNumber).HasMaxLength(50).IsRequired();

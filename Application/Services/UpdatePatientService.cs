@@ -79,6 +79,7 @@ namespace Application.Services
                 LastName = updatePatient.LastName,
                 Dni = updatePatient.Dni,
                 Adress = updatePatient.Adress,
+                Phone = updatePatient.Phone,
                 DateOfBirth = updatePatient.DateOfBirth,
                 HealthPlan = updatePatient.HealthPlan,
                 MembershipNumber = updatePatient.MembershipNumber,
