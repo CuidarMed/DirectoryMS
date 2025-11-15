@@ -6,5 +6,6 @@ namespace Application.Interfaces
     {
         Task<DoctorResponse?> GetByIdAsync(long id);
         Task<List<DoctorResponse>> GetAllAsync();
+        Task<DoctorResponse?> GetByUserIdAsync(long userId);
     }
 }

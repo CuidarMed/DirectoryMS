@@ -26,5 +26,18 @@ namespace Infrastructure.Queries
 
             return patient;
         }
+
+        public async Task<Patient> getPatientByUserId(long userId)
+        {
+            return await _context.Patients.AsNoTracking()
+                .FirstOrDefaultAsync(p => p.UserId == userId);
+        }
+
+        public async Task<List<Patient>> GetAllAsync()
+        {
+            return await _context.Patients
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }

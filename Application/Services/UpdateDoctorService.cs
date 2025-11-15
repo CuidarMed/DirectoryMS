@@ -23,29 +23,57 @@ namespace Application.Services
                 throw new Exception("Doctor no encontrado");
             }
 
-            // Actualizar solo los campos que no sean null
-            if (!string.IsNullOrEmpty(request.FirstName))
-                doctor.FirstName = request.FirstName;
+            // Actualizar campos si se proporcionan (incluso si son strings vacíos, se convierten en null)
+            if (request.FirstName != null)
+                doctor.FirstName = string.IsNullOrWhiteSpace(request.FirstName) ? null : request.FirstName.Trim();
 
-            if (!string.IsNullOrEmpty(request.LastName))
-                doctor.LastName = request.LastName;
+            if (request.LastName != null)
+                doctor.LastName = string.IsNullOrWhiteSpace(request.LastName) ? null : request.LastName.Trim();
 
-            if (!string.IsNullOrEmpty(request.LicenseNumber))
-                doctor.LicenseNumber = request.LicenseNumber;
+            if (request.LicenseNumber != null)
+                doctor.LicenseNumber = string.IsNullOrWhiteSpace(request.LicenseNumber) ? null : request.LicenseNumber.Trim();
 
-            if (!string.IsNullOrEmpty(request.Biography))
-                doctor.Biography = request.Biography;
+            if (request.Biography != null)
+                doctor.Biography = string.IsNullOrWhiteSpace(request.Biography) ? null : request.Biography.Trim();
+
+            if (request.Phone != null)
+                doctor.Phone = string.IsNullOrWhiteSpace(request.Phone) ? null : request.Phone.Trim();
+
+            // Actualizar Specialty si se proporciona (puede ser null explícitamente)
+            Console.WriteLine($"[UpdateDoctorService] Request recibido - Specialty: '{request.Specialty}'");
+            Console.WriteLine($"[UpdateDoctorService] Specialty != null: {request.Specialty != null}");
+            
+            // Actualizar Specialty siempre si se proporciona, incluso si es un string vacío
+            // Esto permite establecer null explícitamente
+            if (request.Specialty != null)
+            {
+                var newSpecialty = string.IsNullOrWhiteSpace(request.Specialty) ? null : request.Specialty.Trim();
+                Console.WriteLine($"[UpdateDoctorService] Actualizando Specialty de '{doctor.Specialty}' a '{newSpecialty}'");
+                doctor.Specialty = newSpecialty;
+            }
+            else
+            {
+                Console.WriteLine($"[UpdateDoctorService] Specialty no proporcionado en el request (es null)");
+            }
+
+            Console.WriteLine($"[UpdateDoctorService] Doctor antes de guardar - Specialty: '{doctor.Specialty}'");
 
             // Guardar cambios
             var updatedDoctor = await _doctorCommand.UpdateAsync(doctor);
+            
+            Console.WriteLine($"[UpdateDoctorService] Doctor después de guardar - Specialty: '{updatedDoctor.Specialty}'");
 
             // Retornar respuesta
             return new UpdateDoctorResponse
             {
+                DoctorId = updatedDoctor.DoctorId,
                 FirstName = updatedDoctor.FirstName,
                 LastName = updatedDoctor.LastName,
                 LicenseNumber = updatedDoctor.LicenseNumber,
-                Biography = updatedDoctor.Biography
+                Biography = updatedDoctor.Biography,
+                Specialty = updatedDoctor.Specialty,
+                Phone = updatedDoctor.Phone,
+                UserId = updatedDoctor.UserId
             };
         }
     }

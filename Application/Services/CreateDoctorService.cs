@@ -19,6 +19,19 @@ namespace Application.Services
 
         public async Task<DoctorResponse> CreateDoctorAsync(CreateDoctorRequest request)
         {
+            // Validar que Specialty no esté vacía
+            if (string.IsNullOrWhiteSpace(request.Specialty))
+            {
+                throw new Exception("La especialidad es obligatoria.");
+            }
+
+            // Validar que Specialty sea una de las opciones válidas
+            var validSpecialties = new[] { "Neurologo", "Pediatra", "Clinico", "Cardiologo", "Cirujano", "Dermatologo", "Psiquiatra" };
+            if (!validSpecialties.Contains(request.Specialty))
+            {
+                throw new Exception($"La especialidad debe ser una de las siguientes: {string.Join(", ", validSpecialties)}.");
+            }
+
             // Crear la entidad Doctor
             var doctor = new Doctor
             {
@@ -26,6 +39,8 @@ namespace Application.Services
                 LastName = request.LastName,
                 LicenseNumber = request.LicenseNumber,
                 Biography = request.Biography,
+                Specialty = request.Specialty, // especialidad (obligatoria)
+                Phone = request.Phone,
                 UserId = (int)request.UserId
             };
 
@@ -39,6 +54,9 @@ namespace Application.Services
                 FirstName = doctor.FirstName,
                 LastName = doctor.LastName,
                 LicenseNumber = doctor.LicenseNumber,
+                Biography = doctor.Biography,
+                Specialty = doctor.Specialty, // especialidad
+                Phone = doctor.Phone, // teléfono
                 UserId = doctor.UserId
             };
         }

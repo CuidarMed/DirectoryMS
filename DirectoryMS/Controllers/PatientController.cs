@@ -22,8 +22,24 @@ namespace DirectoryMS.Controllers
         [HttpPost]
         public async Task<IActionResult> createPatient([FromBody] CreatePatientRequest patient)
         {
-            var result = await _createPatientService.createaPatient(patient);
-            return new JsonResult(result);
+            try
+            {
+                if (patient == null)
+                {
+                    return BadRequest(new { message = "El paciente no puede ser nulo." });
+                }
+
+                var result = await _createPatientService.createaPatient(patient);
+                return Ok(result);
+            }
+            catch (Application.Exceptions.ConflictException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Error al crear el paciente: {ex.Message}", details = ex.ToString() });
+            }
         }
 
         [HttpGet("{id}")]
@@ -33,11 +49,35 @@ namespace DirectoryMS.Controllers
             return new JsonResult(result);
         }
 
+        [HttpGet("User/{userId}")]
+        public async Task<IActionResult> getPatientByUserId(long userId)
+        {
+            var result = await _searchPatientService.getPatientByUserId(userId);
+            return new JsonResult(result);
+        }
+
         [HttpPatch("{id}")]
         public async Task<IActionResult> updatePatient(long id, [FromBody] UpdatePatientRequest request)
         {
             var result = await _updatePatientService.UpdatePatient(id, request);
             return new JsonResult(result);
+        }
+
+        /// <summary>
+        /// Obtiene todos los pacientes
+        /// </summary>
+        [HttpGet("all")]
+        public async Task<ActionResult<List<PatientResponse>>> GetAllPatients()
+        {
+            try
+            {
+                var result = await _searchPatientService.GetAllAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
         }
     }
 }
