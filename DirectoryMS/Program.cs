@@ -1,56 +1,82 @@
 using Application.Interfaces;
 using Application.Services;
+using DirectoryMS.Converters;
 using Infraestructure.Command;
 using Infraestructure.Persistence;
 using Infraestructure.Queries;
-using Infrastructure.Command;
-using Infrastructure.Queries;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Globalization;
-using DirectoryMS.Converters;
-using Microsoft.AspNetCore.Http.Features;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.Features; // Necesario para configurar FormOptions
 
+
+// BUILDER CONFIGURATION
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// -------------------- 1. Core Services & Media Limits --------------------
 
+// Aumentar el límite de tamaño del request body para Kestrel (para imágenes/archivos grandes)
+builder.WebHost.ConfigureKestrel(options =>
+{
+    // Límite de 50MB
+    options.Limits.MaxRequestBodySize = 50 * 1024 * 1024;
+});
+
+// Configuración de Request Body y Controladores (MVC)
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        // Configurar el serializador para manejar DateOnly correctamente
+        // JSON Converters para DateOnly y Enums
         options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
         options.JsonSerializerOptions.Converters.Add(new NullableDateOnlyJsonConverter());
-        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
-        // Permitir nombres de propiedades en camelCase
-        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+
+        // Política de nombramiento estándar
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     })
     .ConfigureApiBehaviorOptions(options =>
     {
-        // Aumentar el tamaño máximo del request body para permitir imágenes base64 grandes
+        // Suprimir el filtro de validación predeterminado si se usan filtros personalizados o FluentValidation
         options.SuppressModelStateInvalidFilter = false;
     });
 
-// Aumentar el límite de tamaño del request body
-builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
+// Configuración para permitir tamaños de formulario grandes (necesario junto con Kestrel)
+builder.Services.Configure<FormOptions>(options =>
 {
     options.ValueLengthLimit = int.MaxValue;
     options.MultipartBodyLengthLimit = int.MaxValue;
     options.MemoryBufferThreshold = int.MaxValue;
 });
 
-// Aumentar el límite del request body en Kestrel
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.Limits.MaxRequestBodySize = 50 * 1024 * 1024; // 50MB
-});
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+// Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// -------------------- 2. Database & Localization Configuration --------------------
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("No se encontró la cadena de conexión 'DefaultConnection'.");
+}
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString, sqlServerOptions =>
+    {
+        // Estrategia de reintento robusta para entornos inestables/Docker
+        sqlServerOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorNumbersToAdd: null);
+    })
+);
+
+// CORS Policy
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -61,23 +87,22 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Obtenego la cadena de conexi�n
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString, sqlServerOptions =>
-    {
-        sqlServerOptions.EnableRetryOnFailure(
-            maxRetryCount: 5,
-            maxRetryDelay: TimeSpan.FromSeconds(30),
-            errorNumbersToAdd: null);
-    })
-);
+// Configuración de Localización (para garantizar el formato de fecha/número consistente)
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var culture = new CultureInfo("es-US");
+    options.DefaultRequestCulture = new RequestCulture(culture);
+    options.SupportedCultures = new[] { culture };
+    options.SupportedUICultures = new[] { culture };
+});
 
-// ========== QUERIES (lectura) - Infrastructure ==========
+// -------------------- 3. Dependency Injection (Application/Infrastructure) --------------------
+
+// ========== QUERIES (Lectura) - Infrastructure ==========
 builder.Services.AddScoped<IDoctorQuery, DoctorQuery>();
 builder.Services.AddScoped<IPatientQuery, PatientQuery>();
 
-// ========== COMMANDS (escritura) - Infrastructure ==========
+// ========== COMMANDS (Escritura) - Infrastructure ==========
 builder.Services.AddScoped<IDoctorCommand, DoctorCommand>();
 builder.Services.AddScoped<IPatientCommand, PatientCommand>();
 
@@ -91,40 +116,41 @@ builder.Services.AddScoped<ICreatePatientService, CreatePatientService>();
 builder.Services.AddScoped<ISearchPatientService, SearchPatientService>();
 builder.Services.AddScoped<IUpdatePatientService, UpdatePatientService>();
 
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    options.DefaultRequestCulture = new RequestCulture("es-US");
-    options.SupportedCultures = new[] { new CultureInfo("es-US") };
-    options.SupportedUICultures = new[] { new CultureInfo("es-US") };
-});
 
+// APP CONFIGURATION
 
 var app = builder.Build();
+
 app.UseRequestLocalization();
+
+// ========== Aplicar Migraciones con Reintento (Retries) ==========
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    // Se inyecta ILogger<Program> ya que no hay una clase Program formal
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
     const int maxRetries = 10;
-    for(var attempt = 1; attempt <= maxRetries; attempt++)
+    for (var attempt = 1; attempt <= maxRetries; attempt++)
     {
         try
         {
             logger.LogInformation("Applying migrations... Attempt {Attempt} of {MaxRetries}", attempt, maxRetries);
+            // La migración real ocurre aquí
             dbContext.Database.Migrate();
             logger.LogInformation("Migrations applied successfully.");
             break;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             logger.LogError(ex, "An error occurred while applying migrations on attempt {Attempt} of {MaxRetries}", attempt, maxRetries);
-            if(attempt == maxRetries)
+            if (attempt == maxRetries)
             {
                 logger.LogCritical("Max migration attempts reached. Exiting application.");
                 throw;
             }
-            await Task.Delay(TimeSpan.FromSeconds(3)); // Wait before retrying
+            // Espera antes de reintentar para dar tiempo a que la DB se inicialice
+            await Task.Delay(TimeSpan.FromSeconds(3));
         }
     }
 }
@@ -138,6 +164,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Usar la política CORS definida
 app.UseCors("AllowAll");
 
 app.UseAuthorization();
