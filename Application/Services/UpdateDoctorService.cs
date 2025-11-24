@@ -23,18 +23,21 @@ namespace Application.Services
                 throw new Exception("Doctor no encontrado");
             }
 
-            // Actualizar solo los campos que no sean null
-            if (!string.IsNullOrEmpty(request.FirstName))
-                doctor.FirstName = request.FirstName;
+            // Actualizar campos si se proporcionan (incluso si son strings vacíos, se convierten en null)
+            if (request.FirstName != null)
+                doctor.FirstName = string.IsNullOrWhiteSpace(request.FirstName) ? null : request.FirstName.Trim();
 
-            if (!string.IsNullOrEmpty(request.LastName))
-                doctor.LastName = request.LastName;
+            if (request.LastName != null)
+                doctor.LastName = string.IsNullOrWhiteSpace(request.LastName) ? null : request.LastName.Trim();
 
-            if (!string.IsNullOrEmpty(request.LicenseNumber))
-                doctor.LicenseNumber = request.LicenseNumber;
+            if (request.LicenseNumber != null)
+                doctor.LicenseNumber = string.IsNullOrWhiteSpace(request.LicenseNumber) ? null : request.LicenseNumber.Trim();
 
-            if (!string.IsNullOrEmpty(request.Biography))
-                doctor.Biography = request.Biography;
+            if (request.Biography != null)
+                doctor.Biography = string.IsNullOrWhiteSpace(request.Biography) ? null : request.Biography.Trim();
+
+            if (request.Phone != null)
+                doctor.Phone = string.IsNullOrWhiteSpace(request.Phone) ? null : request.Phone.Trim();
 
             // Actualizar Specialty si se proporciona (puede ser null explícitamente)
             Console.WriteLine($"[UpdateDoctorService] Request recibido - Specialty: '{request.Specialty}'");
@@ -69,6 +72,7 @@ namespace Application.Services
                 LicenseNumber = updatedDoctor.LicenseNumber,
                 Biography = updatedDoctor.Biography,
                 Specialty = updatedDoctor.Specialty,
+                Phone = updatedDoctor.Phone,
                 UserId = updatedDoctor.UserId
             };
         }

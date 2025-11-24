@@ -59,6 +59,7 @@ namespace Application.Services
                 Name = p.FirstName ?? string.Empty,
                 LastName = p.LastName ?? string.Empty,
                 Adress = p.Adress ?? string.Empty,
+                Phone = p.Phone ?? string.Empty,
                 DateOfBirth = p.DateOfBirth,
                 HealthPlan = p.HealthPlan ?? string.Empty, // Valor por defecto si es null (se actualizará después)
                 MembershipNumber = p.MembershipNumber ?? string.Empty, // Valor por defecto si es null (se actualizará después)

@@ -41,6 +41,16 @@ namespace Application.Services
             if(!string.IsNullOrEmpty(request.Adress))
                 patient.Adress = request.Adress;
 
+            if (!string.IsNullOrEmpty(request.Phone))
+            {
+                Console.WriteLine($"[UpdatePatientService] Actualizando Phone de '{patient.Phone}' a '{request.Phone}'");
+                patient.Phone = request.Phone;
+            }
+            else
+            {
+                Console.WriteLine($"[UpdatePatientService] Phone no proporcionado o vacío en el request. Valor actual: '{patient.Phone}'");
+            }
+
             if (request.DateOfBirth.HasValue)
             {
                 Console.WriteLine($"[UpdatePatientService] Actualizando DateOfBirth de {patient.DateOfBirth} a {request.DateOfBirth.Value}");
@@ -79,6 +89,7 @@ namespace Application.Services
                 LastName = updatePatient.LastName,
                 Dni = updatePatient.Dni,
                 Adress = updatePatient.Adress,
+                Phone = updatePatient.Phone,
                 DateOfBirth = updatePatient.DateOfBirth,
                 HealthPlan = updatePatient.HealthPlan,
                 MembershipNumber = updatePatient.MembershipNumber,

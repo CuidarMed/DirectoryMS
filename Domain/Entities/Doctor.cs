@@ -8,6 +8,7 @@
         public string? LicenseNumber { get; set; } // matrícula
         public string? Biography { get; set; }
         public string? Specialty { get; set; } // especialidad
+        public string? Phone { get; set; } // teléfono
         public long UserId { get; set; }
 
     }
