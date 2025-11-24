@@ -41,10 +41,12 @@ DirectoryMS se encarga de almacenar y exponer datos como:
 
 DirectoryMS utiliza SQL Server como base de datos.  
 - Tablas principales:
+
 | Tabla | Descripción |
 |-------|-------------|
 | `Doctors` | Datos de los médicos registrados (nombre, matrícula, especialidad principal, contacto, estado activo) |
 | `Patients` | Información básica de los pacientes (nombre, DNI, teléfono, email, fecha de nacimiento, especialidad) 
+
 
 ---
 ## 🚀 Instalación
