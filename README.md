@@ -47,7 +47,11 @@ DirectoryMS utiliza SQL Server como base de datos.
 | `Doctors` | Datos de los médicos registrados (nombre, matrícula, especialidad principal, contacto, estado activo) |
 | `Patients` | Información básica de los pacientes (nombre, DNI, teléfono, email, fecha de nacimiento, especialidad) 
 
-
+---
+## 🔗 Integración con otros microservicios
+- **SchedulingMS:** Verificar qué médicos existen y obtiene sus especialidades.
+- **AuthMS:** Complementa información de usuario con perfil médico o paciente.
+- **ClinicalMS:** Obtiene datos demográficos del paciente y los datos profesionales del médico.
 ---
 ## 🚀 Instalación
 
@@ -87,26 +91,4 @@ http://localhost:8081/swagger/index.html
 ```bash
 https://localhost:5001/swagger
 ```
-
-## 🔗 Integración con otros microservicios
-👉 SchedulingMS
-
-Para:
-
-- Verificar qué médicos existen
-
-- Obtener sus especialidades
-
-👉 AuthMS
-
-Para:
-
-- Complementar información de usuario con perfil médico o paciente
-
-👉 ClinicalMS
-
-Para:
-
-- Obtener datos demográficos del paciente
-
-- Datos profesionales del médico
+---
