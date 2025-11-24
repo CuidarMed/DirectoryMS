@@ -62,7 +62,7 @@ cd DirectoryMS
 dotnet docker compose up --build
 ```
 3. Si no usas Docker -> Configurar la cadena de conexión en appsettings.json:
-```bash
+```json
 {
   "ConnectionStrings": {
     "DefaultConnection": "Server=localhost,1434;Database=DirectoryDB;User Id=sa;Password=TuPassword123!;"
