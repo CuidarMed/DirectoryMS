@@ -58,7 +58,7 @@ DirectoryMS utiliza SQL Server como base de datos.
 1. Clonar el repositorio:
 
 ```bash
-git clone https://github.com/tu-usuario/DirectoryMS.git
+https://github.com/CuidarMed/DirectoryMS.git
 cd DirectoryMS
 ```
 2. Levantar el servicio con Docker Compose:
