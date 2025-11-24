@@ -1,8 +1,5 @@
 using Application.Interfaces;
 using Application.Services;
-using Infraestructure.Command;
-using Infraestructure.Persistence;
-using Infraestructure.Queries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.AspNetCore.Localization;
@@ -10,7 +7,8 @@ using System.Globalization;
 using DirectoryMS.Converters;
 using FluentValidation;
 using System.Reflection;
-
+using Infrastructure.Queries;
+using Infrastructure.Command;
 
 var builder = WebApplication.CreateBuilder(args);
 
