@@ -1,41 +1,53 @@
 ﻿using Application.DTOs.Doctors;
 using Application.Interfaces;
 using Domain.Entities;
-using FluentValidation;
 
 namespace Application.Services
 {
     public class CreateDoctorService : ICreateDoctorService
     {
         private readonly IDoctorCommand _doctorCommand;
-        private readonly IValidator<CreateDoctorRequest> _validator;
+        private readonly IDoctorQuery _doctorQuery;
 
-        public CreateDoctorService(IDoctorCommand doctorCommand, IValidator<CreateDoctorRequest> validator)
+        public CreateDoctorService(
+            IDoctorCommand doctorCommand,
+            IDoctorQuery doctorQuery)
         {
             _doctorCommand = doctorCommand;
-            _validator = validator;
+            _doctorQuery = doctorQuery;
         }
 
         public async Task<DoctorResponse> CreateDoctorAsync(CreateDoctorRequest request)
         {
-            var result = await _validator.ValidateAsync(request);
+            // Validar que Specialty no esté vacía
+            if (string.IsNullOrWhiteSpace(request.Specialty))
+            {
+                throw new Exception("La especialidad es obligatoria.");
+            }
 
-            if (!result.IsValid)
-                throw new ValidationException(result.Errors);
+            // Validar que Specialty sea una de las opciones válidas
+            var validSpecialties = new[] { "Neurologo", "Pediatra", "Clinico", "Cardiologo", "Cirujano", "Dermatologo", "Psiquiatra" };
+            if (!validSpecialties.Contains(request.Specialty))
+            {
+                throw new Exception($"La especialidad debe ser una de las siguientes: {string.Join(", ", validSpecialties)}.");
+            }
 
-
+            // Crear la entidad Doctor
             var doctor = new Doctor
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 LicenseNumber = request.LicenseNumber,
                 Biography = request.Biography,
-                Specialty = request.Specialty,
+                Specialty = request.Specialty, // especialidad (obligatoria)
                 Phone = request.Phone,
-                UserId = request.UserId
+                UserId = (int)request.UserId
             };
+
+            // Guardar en la base de datos
             doctor = await _doctorCommand.CreateAsync(doctor);
 
+            // Retornar la respuesta
             return new DoctorResponse
             {
                 DoctorId = doctor.DoctorId,
@@ -43,8 +55,8 @@ namespace Application.Services
                 LastName = doctor.LastName,
                 LicenseNumber = doctor.LicenseNumber,
                 Biography = doctor.Biography,
-                Specialty = doctor.Specialty, 
-                Phone = doctor.Phone, 
+                Specialty = doctor.Specialty, // especialidad
+                Phone = doctor.Phone, // teléfono
                 UserId = doctor.UserId
             };
         }

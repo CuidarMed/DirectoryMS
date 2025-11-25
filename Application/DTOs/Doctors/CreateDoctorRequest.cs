@@ -1,4 +1,10 @@
-﻿namespace Application.DTOs.Doctors
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.DTOs.Doctors
 {
     public class CreateDoctorRequest
     {
@@ -6,8 +12,8 @@
         public string? LastName { get; set; }
         public string? LicenseNumber { get; set; } // matrícula
         public string? Biography { get; set; }
-        public string Specialty { get; set; } = string.Empty;
-        public string? Phone { get; set; }
+        public string Specialty { get; set; } = string.Empty; // especialidad (obligatoria)
+        public string? Phone { get; set; } // teléfono
         public long UserId { get; set; }
     }
 }
