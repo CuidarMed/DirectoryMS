@@ -23,7 +23,7 @@ namespace Application.Services
             var result = await _validator.ValidateAsync(request);
 
             if (!result.IsValid)
-                throw new ValidationException(result.Errors)
+                throw new ValidationException(result.Errors);
 
             var doctor = await _doctorQuery.GetByIdAsync(id);
 
