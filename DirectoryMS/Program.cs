@@ -12,6 +12,8 @@ using System.Globalization;
 using DirectoryMS.Converters;
 using FluentValidation;
 using System.Reflection;
+using DirectoryMS.Models;
+using Microsoft.Extensions.Options;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,6 +64,42 @@ builder.Services.AddCors(options =>
     });
 });
 
+// ========== CONFIGURACIÓN GATEWAY ==========
+builder.Services.Configure<GatewaySettings>(options =>
+{
+    var gatewayUrl = Environment.GetEnvironmentVariable("AUTH_GATEWAY_URL")
+        ?? builder.Configuration["Gateway:AuthServiceUrl"]
+        ?? "http://gatewayms_api:8080/auth";
+
+    options.AuthServiceUrl = gatewayUrl;
+});
+
+// ========== HttpClient para AuthTokenService (obtener tokens) ==========
+builder.Services.AddHttpClient<IAuthTokenService, AuthTokenService>((serviceProvider, client) =>
+{
+    var gatewaySettings1 = serviceProvider.GetRequiredService<IOptions<GatewaySettings>>().Value;
+    client.BaseAddress = new Uri(gatewaySettings1.AuthServiceUrl);
+    client.Timeout = TimeSpan.FromSeconds(30);
+})
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+})
+.SetHandlerLifetime(TimeSpan.FromMinutes(5));
+
+// ========== HttpClient para AuthGatewayService (llamadas autenticadas) ==========
+builder.Services.AddHttpClient<IAuthGatewayService, AuthGatewayService>((serviceProvider, client) =>
+{
+    var gatewaySettings = serviceProvider.GetRequiredService<IOptions<GatewaySettings>>().Value;
+    client.BaseAddress = new Uri(gatewaySettings.AuthServiceUrl);
+    client.Timeout = TimeSpan.FromSeconds(30);
+})
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+})
+.SetHandlerLifetime(TimeSpan.FromMinutes(5));
+
 // Obtenego la cadena de conexion
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -72,7 +110,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
             maxRetryDelay: TimeSpan.FromSeconds(30),
             errorNumbersToAdd: null);
     })
-    .ConfigureWarnings(warnings => 
+    .ConfigureWarnings(warnings =>
         warnings.Ignore(RelationalEventId.PendingModelChangesWarning))
 );
 
@@ -114,7 +152,7 @@ using (var scope = app.Services.CreateScope())
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
     const int maxRetries = 10;
-    for(var attempt = 1; attempt <= maxRetries; attempt++)
+    for (var attempt = 1; attempt <= maxRetries; attempt++)
     {
         try
         {
@@ -123,10 +161,10 @@ using (var scope = app.Services.CreateScope())
             logger.LogInformation("Migrations applied successfully.");
             break;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             logger.LogError(ex, "An error occurred while applying migrations on attempt {Attempt} of {MaxRetries}", attempt, maxRetries);
-            if(attempt == maxRetries)
+            if (attempt == maxRetries)
             {
                 logger.LogCritical("Max migration attempts reached. Exiting application.");
                 throw;

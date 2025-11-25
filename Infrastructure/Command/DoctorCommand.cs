@@ -2,7 +2,7 @@
 using Domain.Entities;
 using Infraestructure.Persistence;
 
-namespace Infraestructure.Command
+namespace Infrastructure.Command
 {
     public class DoctorCommand : IDoctorCommand
     {

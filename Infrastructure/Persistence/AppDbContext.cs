@@ -2,7 +2,7 @@
 using Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infraestructure.Persistence
+namespace Infrastructure.Persistence
 {
     public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {

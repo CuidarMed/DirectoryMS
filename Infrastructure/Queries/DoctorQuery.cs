@@ -1,9 +1,9 @@
 ﻿using Application.Interfaces;
 using Domain.Entities;
-using Infraestructure.Persistence;
+using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infraestructure.Queries
+namespace Infrastructure.Queries
 {
     public class DoctorQuery : IDoctorQuery
     {
