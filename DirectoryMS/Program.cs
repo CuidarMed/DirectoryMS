@@ -1,5 +1,10 @@
 using Application.Interfaces;
 using Application.Services;
+using Infraestructure.Command;
+using Infraestructure.Persistence;
+using Infraestructure.Queries;
+using Infrastructure.Command;
+using Infrastructure.Queries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.AspNetCore.Localization;
@@ -7,8 +12,9 @@ using System.Globalization;
 using DirectoryMS.Converters;
 using FluentValidation;
 using System.Reflection;
-using Infrastructure.Queries;
-using Infrastructure.Command;
+using DirectoryMS.Models;
+using Microsoft.Extensions.Options;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,8 +50,7 @@ builder.WebHost.ConfigureKestrel(options =>
 {
     options.Limits.MaxRequestBodySize = 50 * 1024 * 1024; // 50MB
 });
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -59,7 +64,43 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Obtenego la cadena de conexi�n
+// ========== CONFIGURACIÓN GATEWAY ==========
+builder.Services.Configure<GatewaySettings>(options =>
+{
+    var gatewayUrl = Environment.GetEnvironmentVariable("AUTH_GATEWAY_URL")
+        ?? builder.Configuration["Gateway:AuthServiceUrl"]
+        ?? "http://gatewayms_api:8080/auth";
+
+    options.AuthServiceUrl = gatewayUrl;
+});
+
+// ========== HttpClient para AuthTokenService (obtener tokens) ==========
+builder.Services.AddHttpClient<IAuthTokenService, AuthTokenService>((serviceProvider, client) =>
+{
+    var gatewaySettings1 = serviceProvider.GetRequiredService<IOptions<GatewaySettings>>().Value;
+    client.BaseAddress = new Uri(gatewaySettings1.AuthServiceUrl);
+    client.Timeout = TimeSpan.FromSeconds(30);
+})
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+})
+.SetHandlerLifetime(TimeSpan.FromMinutes(5));
+
+// ========== HttpClient para AuthGatewayService (llamadas autenticadas) ==========
+builder.Services.AddHttpClient<IAuthGatewayService, AuthGatewayService>((serviceProvider, client) =>
+{
+    var gatewaySettings = serviceProvider.GetRequiredService<IOptions<GatewaySettings>>().Value;
+    client.BaseAddress = new Uri(gatewaySettings.AuthServiceUrl);
+    client.Timeout = TimeSpan.FromSeconds(30);
+})
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+})
+.SetHandlerLifetime(TimeSpan.FromMinutes(5));
+
+// Obtenego la cadena de conexion
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString, sqlServerOptions =>
@@ -93,6 +134,7 @@ builder.Services.AddScoped<IUpdatePatientService, UpdatePatientService>();
 
 // ========== FluentValidation ==========
 builder.Services.AddValidatorsFromAssembly(Assembly.Load("Application"));
+
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {

@@ -41,7 +41,7 @@ namespace Infrastructure.Persistence
                 d.Property(d => d.LicenseNumber).HasMaxLength(50).IsRequired();
                 d.Property(d => d.Biography).HasMaxLength(500);
                 d.Property(d => d.Phone).HasMaxLength(20); // teléfono
-                d.Property(d => d.Specialty).HasMaxLength(100); // especialidad
+                d.Property(d => d.Specialty).HasMaxLength(100); 
             });
 
             // Aplicar configuraciones de entidades
