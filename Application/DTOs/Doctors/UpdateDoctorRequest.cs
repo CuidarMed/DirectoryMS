@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.DTOs.Doctors
+﻿namespace Application.DTOs.Doctors
 {
     public class UpdateDoctorRequest
     {
@@ -12,7 +6,7 @@ namespace Application.DTOs.Doctors
         public string? LastName { get; set; }
         public string? LicenseNumber { get; set; } // matrícula
         public string? Biography { get; set; }
-        public string? Specialty { get; set; } // especialidad (opcional en update, pero si se proporciona debe ser válida)
-        public string? Phone { get; set; } // teléfono
+        public string? Specialty { get; set; } 
+        public string? Phone { get; set; } 
     }
 }

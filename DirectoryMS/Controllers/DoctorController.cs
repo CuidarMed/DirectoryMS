@@ -22,97 +22,39 @@ namespace DirectoryMS.Controllers
             _updateDoctorService = updateDoctorService;
         }
 
-        /// <summary>
-        /// Crea un nuevo doctor
-        /// </summary>
         [HttpPost]
         public async Task<IActionResult> CreateDoctor([FromBody] CreateDoctorRequest request)
         {
-            try
-            {
-                var result = await _createDoctorService.CreateDoctorAsync(request);
-                return CreatedAtAction(nameof(GetDoctorById), new { id = result.DoctorId }, result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var result = await _createDoctorService.CreateDoctorAsync(request);
+            return CreatedAtAction(nameof(GetDoctorById), new { id = result.DoctorId }, result);
         }
 
-        /// <summary>
-        /// Obtiene todos los doctores
-        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetAllDoctors()
         {
-            try
-            {
-                var result = await _searchDoctorService.GetAllAsync();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = ex.Message });
-            }
+            var result = await _searchDoctorService.GetAllAsync();
+            return Ok(result);
         }
 
-        /// <summary>
-        /// Obtiene un doctor por ID
-        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<DoctorResponse>> GetDoctorById(long id)
         {
-            try
-            {
-                var result = await _searchDoctorService.GetByIdAsync(id);
-
-                if (result == null)
-                    return NotFound(new { message = "Doctor no encontrado" });
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = ex.Message });
-            }
+            var result = await _searchDoctorService.GetByIdAsync(id);
+            return Ok(result);   
         }
 
-        /// <summary>
-        /// Obtiene un doctor por UserId
-        /// </summary>
         [HttpGet("User/{userId}")]
         public async Task<ActionResult<DoctorResponse>> GetDoctorByUserId(long userId)
         {
-            try
-            {
-                var result = await _searchDoctorService.GetByUserIdAsync(userId);
-
-                if (result == null)
-                    return NotFound(new { message = "Doctor no encontrado para el usuario especificado" });
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = ex.Message });
-            }
+            var result = await _searchDoctorService.GetByUserIdAsync(userId);
+            return Ok(result);
         }
 
-        /// <summary>
-        /// Actualiza un doctor existente (actualización parcial)
-        /// </summary>
         [HttpPatch("{id}")]
         public async Task<ActionResult<DoctorResponse>> UpdateDoctor(long id, [FromBody] UpdateDoctorRequest request)
         {
-            try
-            {
-                var result = await _updateDoctorService.UpdateDoctorAsync(id, request);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            var result = await _updateDoctorService.UpdateDoctorAsync(id, request);
+            return Ok(result);
         }
     }
 }

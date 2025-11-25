@@ -5,13 +5,11 @@ using Infraestructure.Persistence;
 using Infraestructure.Queries;
 using Infrastructure.Command;
 using Infrastructure.Queries;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using DirectoryMS.Converters;
-using Microsoft.AspNetCore.Http.Features;
 using FluentValidation;
 using System.Reflection;
 
@@ -50,8 +48,7 @@ builder.WebHost.ConfigureKestrel(options =>
 {
     options.Limits.MaxRequestBodySize = 50 * 1024 * 1024; // 50MB
 });
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -65,7 +62,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Obtenego la cadena de conexi�n
+// Obtenego la cadena de conexion
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString, sqlServerOptions =>
@@ -99,6 +96,7 @@ builder.Services.AddScoped<IUpdatePatientService, UpdatePatientService>();
 
 // ========== FluentValidation ==========
 builder.Services.AddValidatorsFromAssembly(Assembly.Load("Application"));
+
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {

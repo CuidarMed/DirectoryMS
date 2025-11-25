@@ -1,5 +1,6 @@
 ﻿using Application.DTOs.Doctors;
 using Application.Interfaces;
+using FluentValidation;
 
 namespace Application.Services
 {
@@ -7,23 +8,28 @@ namespace Application.Services
     {
         private readonly IDoctorCommand _doctorCommand;
         private readonly IDoctorQuery _doctorQuery;
+        private readonly IValidator<UpdateDoctorRequest> _validator;
 
-        public UpdateDoctorService(IDoctorCommand doctorCommand, IDoctorQuery doctorQuery)
+
+        public UpdateDoctorService(IDoctorCommand doctorCommand, IDoctorQuery doctorQuery, IValidator<UpdateDoctorRequest> validator )
         {
             _doctorCommand = doctorCommand;
             _doctorQuery = doctorQuery;
+            _validator = validator;
         }
 
         public async Task<UpdateDoctorResponse> UpdateDoctorAsync(long id, UpdateDoctorRequest request)
         {
-            // Buscar el doctor existente
-            var doctor = await _doctorQuery.GetByIdAsync(id);
-            if (doctor == null)
-            {
-                throw new Exception("Doctor no encontrado");
-            }
+            var result = await _validator.ValidateAsync(request);
 
-            // Actualizar campos si se proporcionan (incluso si son strings vacíos, se convierten en null)
+            if (!result.IsValid)
+                throw new ValidationException(result.Errors)
+
+            var doctor = await _doctorQuery.GetByIdAsync(id);
+
+            if (doctor == null)
+                throw new KeyNotFoundException("Doctor no encontrado.");
+
             if (request.FirstName != null)
                 doctor.FirstName = string.IsNullOrWhiteSpace(request.FirstName) ? null : request.FirstName.Trim();
 
@@ -39,31 +45,14 @@ namespace Application.Services
             if (request.Phone != null)
                 doctor.Phone = string.IsNullOrWhiteSpace(request.Phone) ? null : request.Phone.Trim();
 
-            // Actualizar Specialty si se proporciona (puede ser null explícitamente)
-            Console.WriteLine($"[UpdateDoctorService] Request recibido - Specialty: '{request.Specialty}'");
-            Console.WriteLine($"[UpdateDoctorService] Specialty != null: {request.Specialty != null}");
-            
-            // Actualizar Specialty siempre si se proporciona, incluso si es un string vacío
-            // Esto permite establecer null explícitamente
             if (request.Specialty != null)
             {
-                var newSpecialty = string.IsNullOrWhiteSpace(request.Specialty) ? null : request.Specialty.Trim();
-                Console.WriteLine($"[UpdateDoctorService] Actualizando Specialty de '{doctor.Specialty}' a '{newSpecialty}'");
-                doctor.Specialty = newSpecialty;
+                doctor.Specialty = string.IsNullOrWhiteSpace(request.Specialty)
+                    ? null
+                    : request.Specialty.Trim();
             }
-            else
-            {
-                Console.WriteLine($"[UpdateDoctorService] Specialty no proporcionado en el request (es null)");
-            }
-
-            Console.WriteLine($"[UpdateDoctorService] Doctor antes de guardar - Specialty: '{doctor.Specialty}'");
-
-            // Guardar cambios
             var updatedDoctor = await _doctorCommand.UpdateAsync(doctor);
-            
-            Console.WriteLine($"[UpdateDoctorService] Doctor después de guardar - Specialty: '{updatedDoctor.Specialty}'");
 
-            // Retornar respuesta
             return new UpdateDoctorResponse
             {
                 DoctorId = updatedDoctor.DoctorId,
@@ -78,3 +67,4 @@ namespace Application.Services
         }
     }
 }
+
