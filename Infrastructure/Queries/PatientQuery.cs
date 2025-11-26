@@ -39,5 +39,9 @@ namespace Infrastructure.Queries
                 .AsNoTracking()
                 .ToListAsync();
         }
+        public async Task<bool> ExistsByUserIdAsync(long userId)
+        {
+            return await _context.Patients.AnyAsync(p => p.UserId == userId);
+        }
     }
 }

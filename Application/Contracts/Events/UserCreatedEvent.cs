@@ -19,7 +19,7 @@ namespace Application.Contracts.Events
 
         // Datos de Patient
         public DateOnly? DateOfBirth { get; set; }
-        public string? Address { get; set; }
+        public string? Adress { get; set; }
         public string? HealthPlan { get; set; }
         public string? MembershipNumber { get; set; }
 
