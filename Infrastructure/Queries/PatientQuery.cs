@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain.Entities;
-using Infraestructure.Persistence;
+using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace Infrastructure.Queries
             _context = context;
         }
 
-        public async Task<Patient> getPatientById(long id)
+        public async Task<Patient?> getPatientById(long id)
         {
             Patient? patient = await _context.Patients.AsNoTracking()
                                 .FirstOrDefaultAsync(p => p.PatientId == id);
@@ -27,7 +27,7 @@ namespace Infrastructure.Queries
             return patient;
         }
 
-        public async Task<Patient> getPatientByUserId(long userId)
+        public async Task<Patient?> getPatientByUserId(long userId)
         {
             return await _context.Patients.AsNoTracking()
                 .FirstOrDefaultAsync(p => p.UserId == userId);

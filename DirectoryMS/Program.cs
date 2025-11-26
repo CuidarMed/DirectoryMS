@@ -9,6 +9,7 @@ using FluentValidation;
 using System.Reflection;
 using Infrastructure.Queries;
 using Infrastructure.Command;
+using Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
