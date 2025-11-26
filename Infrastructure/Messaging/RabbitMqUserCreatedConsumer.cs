@@ -42,6 +42,11 @@ public class RabbitMqUserCreatedConsumer : BackgroundService
         _connection = await factory.CreateConnectionAsync(cancellationToken: cancellationToken);
 
         _channel = await _connection.CreateChannelAsync();
+        await _channel.QueueDeclarePassiveAsync(QueueName, cancellationToken);
+
+        Console.WriteLine("DirectoryMS: Queue 'user-created' encontrada correctamente.");
+
+        await base.StartAsync(cancellationToken);
     }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -60,11 +65,7 @@ public class RabbitMqUserCreatedConsumer : BackgroundService
 
             await _channel.BasicAckAsync(ea.DeliveryTag, false, stoppingToken);
 
-            await _channel.QueueDeclarePassiveAsync(QueueName, stoppingToken);
-
-            Console.WriteLine("DirectoryMS: Queue 'user-created' encontrada correctamente.");
-
-            await base.StartAsync(stoppingToken);
+           
         };
         // suscribirse a la cola: contentReference[oaicite:7]{index=7}
         _= _channel.BasicConsumeAsync(
@@ -72,6 +73,7 @@ public class RabbitMqUserCreatedConsumer : BackgroundService
             autoAck: false,
             consumer: consumer,
             cancellationToken: stoppingToken);
+        Console.WriteLine("DirectoryMS: consumidor suscripto a 'user-created'");
 
         return Task.CompletedTask;
     }
