@@ -35,7 +35,11 @@ public class RabbitMqUserCreatedConsumer : BackgroundService
         {
             HostName = _config["RabbitMQ:Host"] ?? "rabbitmq",
             UserName = _config["RabbitMQ:User"] ?? "user",
-            Password = _config["RabbitMQ:Pass"] ?? "pass"
+            Password = _config["RabbitMQ:Pass"] ?? "pass",
+
+            AutomaticRecoveryEnabled = true,
+            TopologyRecoveryEnabled = true,
+            RequestedHeartbeat = TimeSpan.FromSeconds(30)
         };
 
         // 7.2.0: conexión async
