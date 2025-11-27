@@ -1,4 +1,10 @@
-﻿namespace Application.DTOs.Doctors
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.DTOs.Doctors
 {
     public class DoctorResponse
     {
@@ -7,8 +13,8 @@
         public string? LastName { get; set; }
         public string? LicenseNumber { get; set; } // matrícula
         public string? Biography { get; set; }
-        public string? Specialty { get; set; }
-        public string? Phone { get; set; }
+        public string? Specialty { get; set; } // especialidad
+        public string? Phone { get; set; } // teléfono
         public long UserId { get; set; }
     }
 }
