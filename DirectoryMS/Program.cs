@@ -1,16 +1,17 @@
 using Application.Interfaces;
 using Application.Services;
+using DirectoryMS.Converters;
+using FluentValidation;
 using Infraestructure.Command;
 using Infraestructure.Persistence;
 using Infraestructure.Queries;
 using Infrastructure.Command;
+using Infrastructure.Messaging;
 using Infrastructure.Queries;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using DirectoryMS.Converters;
-using FluentValidation;
 using System.Reflection;
 
 
@@ -96,6 +97,11 @@ builder.Services.AddScoped<IUpdatePatientService, UpdatePatientService>();
 
 // ========== FluentValidation ==========
 builder.Services.AddValidatorsFromAssembly(Assembly.Load("Application"));
+
+
+// ========== RabbitMQ ==========
+builder.Services.AddScoped<IUserCreatedEventHandler, UserCreatedEventHandler>();
+builder.Services.AddHostedService<RabbitMqUserCreatedConsumer>();
 
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>

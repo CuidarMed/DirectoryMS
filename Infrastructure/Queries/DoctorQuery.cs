@@ -38,5 +38,11 @@ namespace Infraestructure.Queries
                 .AsNoTracking()
                 .FirstOrDefaultAsync(d => d.UserId == userId);
         }
+        public async Task<bool> ExistsByUserIdAsync(long userId)
+        {
+            return await _context.Doctors
+                .AsNoTracking()
+                .AnyAsync(d => d.UserId == userId);
+        }
     }
 }
