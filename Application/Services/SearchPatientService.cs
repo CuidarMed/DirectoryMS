@@ -41,6 +41,16 @@ namespace Application.Services
             return MapPatient(patient);
         }
 
+        public async Task<List<PatientResponse>> getAllPatients()
+        {
+            var patients = await _query.getAllPatients();
+            if (patients == null)
+            {
+                return new List<PatientResponse>();
+            }
+            return patients.Select(MapPatient).ToList();
+        }
+
         private static PatientResponse MapPatient(Domain.Entities.Patient patient)
         {
             // Asegurar que HealthPlan y MembershipNumber no sean null

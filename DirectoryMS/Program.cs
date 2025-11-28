@@ -101,10 +101,12 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 // ========== QUERIES (Lectura) - Infrastructure ==========
 builder.Services.AddScoped<IDoctorQuery, DoctorQuery>();
 builder.Services.AddScoped<IPatientQuery, PatientQuery>();
+builder.Services.AddScoped<ISpecialtyQuery, SpecialtyQuery>();
 
 // ========== COMMANDS (Escritura) - Infrastructure ==========
 builder.Services.AddScoped<IDoctorCommand, DoctorCommand>();
 builder.Services.AddScoped<IPatientCommand, PatientCommand>();
+builder.Services.AddScoped<ISpecialtyCommand, SpecialtyCommand>();
 
 // ========== SERVICES - Doctors ==========
 builder.Services.AddScoped<ICreateDoctorService, CreateDoctorService>();
@@ -115,6 +117,11 @@ builder.Services.AddScoped<IUpdateDoctorService, UpdateDoctorService>();
 builder.Services.AddScoped<ICreatePatientService, CreatePatientService>();
 builder.Services.AddScoped<ISearchPatientService, SearchPatientService>();
 builder.Services.AddScoped<IUpdatePatientService, UpdatePatientService>();
+
+// ========== SERVICES - Specialties ==========
+builder.Services.AddScoped<ICreateSpecialtyService, CreateSpecialtyService>();
+builder.Services.AddScoped<ISearchSpecialtyService, SearchSpecialtyService>();
+builder.Services.AddScoped<IDeleteSpecialtyService, DeleteSpecialtyService>();
 
 
 // APP CONFIGURATION

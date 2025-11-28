@@ -11,5 +11,6 @@ namespace Application.Interfaces
     {
         Task<PatientResponse> getPatientById(long id);
         Task<PatientResponse> getPatientByUserId(long userId);
+        Task<List<PatientResponse>> getAllPatients();
     }
 }

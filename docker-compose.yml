@@ -5,7 +5,7 @@ services:
       dockerfile: DirectoryMS/Dockerfile
     container_name: directoryms_api
     environment:
-      ConnectionStrings__DefaultConnection: "Server=sql_server,1433;Database=DIRECTORY;User Id=sa;Password=SecurePassword123!;TrustServerCertificate=True;"
+      ConnectionStrings__DefaultConnection: "Server=db33326.public.databaseasp.net,1433;Database=db33326;User Id=db33326;Password=6Aw@Rk-92Ko=;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
       ASPNETCORE_ENVIRONMENT: "Development"
       ASPNETCORE_URLS: "http://+:8080"
     ports:

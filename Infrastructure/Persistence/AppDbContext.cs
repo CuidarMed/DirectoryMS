@@ -9,6 +9,7 @@ namespace Infraestructure.Persistence
         //dbsets    
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<Specialty> Specialties { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,6 +40,18 @@ namespace Infraestructure.Persistence
                 d.Property(d => d.Biography).HasMaxLength(500);
                 d.Property(d => d.Specialty).HasMaxLength(100); // especialidad
             });
+
+            // ================= SPECIALTY =================
+            modelBuilder.Entity<Specialty>(s =>
+            {
+                s.ToTable("Specialty");
+                s.HasKey(s => s.SpecialtyId);
+                s.Property(s => s.Name).HasMaxLength(100).IsRequired();
+                s.Property(s => s.Color).HasMaxLength(20).IsRequired();
+                s.Property(s => s.IsActive).IsRequired();
+                s.Property(s => s.CreatedAt).IsRequired();
+            });
+
             base.OnModelCreating(modelBuilder);
             base.OnModelCreating(modelBuilder);
 

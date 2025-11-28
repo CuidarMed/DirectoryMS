@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Queries
+namespace Infraestructure.Queries
 {
     public class PatientQuery : IPatientQuery
     {
@@ -31,6 +31,12 @@ namespace Infrastructure.Queries
         {
             return await _context.Patients.AsNoTracking()
                 .FirstOrDefaultAsync(p => p.UserId == userId);
+        }
+
+        public async Task<IEnumerable<Patient>> getAllPatients()
+        {
+            return await _context.Patients.AsNoTracking()
+                .ToListAsync();
         }
     }
 }

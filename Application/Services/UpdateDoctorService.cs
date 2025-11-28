@@ -25,16 +25,36 @@ namespace Application.Services
 
             // Actualizar solo los campos que no sean null
             if (!string.IsNullOrEmpty(request.FirstName))
+            {
+                Console.WriteLine($"[UpdateDoctorService] Actualizando FirstName de '{doctor.FirstName}' a '{request.FirstName}'");
                 doctor.FirstName = request.FirstName;
+            }
 
             if (!string.IsNullOrEmpty(request.LastName))
+            {
+                Console.WriteLine($"[UpdateDoctorService] Actualizando LastName de '{doctor.LastName}' a '{request.LastName}'");
                 doctor.LastName = request.LastName;
+            }
 
             if (!string.IsNullOrEmpty(request.LicenseNumber))
+            {
+                Console.WriteLine($"[UpdateDoctorService] Actualizando LicenseNumber de '{doctor.LicenseNumber}' a '{request.LicenseNumber}'");
                 doctor.LicenseNumber = request.LicenseNumber;
+            }
+            else
+            {
+                Console.WriteLine($"[UpdateDoctorService] LicenseNumber no proporcionado o vacío en el request. Valor actual: '{doctor.LicenseNumber}'");
+            }
 
             if (!string.IsNullOrEmpty(request.Biography))
+            {
+                Console.WriteLine($"[UpdateDoctorService] Actualizando Biography de '{doctor.Biography}' a '{request.Biography}'");
                 doctor.Biography = request.Biography;
+            }
+            else
+            {
+                Console.WriteLine($"[UpdateDoctorService] Biography no proporcionado o vacío en el request. Valor actual: '{doctor.Biography ?? "null"}'");
+            }
 
             // Actualizar Specialty si se proporciona (puede ser null explícitamente)
             Console.WriteLine($"[UpdateDoctorService] Request recibido - Specialty: '{request.Specialty}'");

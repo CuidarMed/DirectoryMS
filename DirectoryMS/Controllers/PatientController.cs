@@ -42,6 +42,20 @@ namespace DirectoryMS.Controllers
             }
         }
 
+        [HttpGet("all")]
+        public async Task<IActionResult> getAllPatients()
+        {
+            try
+            {
+                var result = await _searchPatientService.getAllPatients();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Error al obtener los pacientes: {ex.Message}", details = ex.ToString() });
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> getPacientById(long id)
         {

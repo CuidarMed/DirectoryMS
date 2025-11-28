@@ -39,7 +39,14 @@ namespace Application.Services
                 patient.LastName = request.LastName;
 
             if(!string.IsNullOrEmpty(request.Adress))
+            {
+                Console.WriteLine($"[UpdatePatientService] Actualizando Adress de '{patient.Adress}' a '{request.Adress}'");
                 patient.Adress = request.Adress;
+            }
+            else
+            {
+                Console.WriteLine($"[UpdatePatientService] Adress no proporcionado o vacío en el request. Valor actual: '{patient.Adress}'");
+            }
 
             if (request.DateOfBirth.HasValue)
             {
